@@ -347,6 +347,10 @@ export const useChatState = () => {
   const connectWebSocket = chatStore((state) => state.connectWebSocket);
   const disconnectWebSocket = chatStore((state) => state.disconnectWebSocket);
 
+  const loadUserConversations = chatStore((state) => state.loadUserConversations);
+  const saveConversations = chatStore((state) => state.saveConversations);
+  const clearUserConversations = chatStore((state) => state.clearUserConversations);
+
   // Computed values
   const totalUnreadCount = conversations.reduce(
     (total, conv) => total + conv.unreadCount,
@@ -376,5 +380,8 @@ export const useChatState = () => {
     toggleExpanded,
     connectWebSocket,
     disconnectWebSocket,
+    loadUserConversations,
+    saveConversations,
+    clearUserConversations,
   };
 };

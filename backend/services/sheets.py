@@ -16,17 +16,11 @@ class GoogleSheetsService:
     """Service for Google Sheets integration"""
     
     def __init__(self):
-        # Load credentials from environment
-        credentials_info = {
-            "type": "service_account",
-            "project_id": os.getenv('GOOGLE_PROJECT_ID'),
-            "private_key": os.getenv('GOOGLE_PRIVATE_KEY', '').replace('\\n', '\n'),
-            "client_email": os.getenv('GOOGLE_SERVICE_ACCOUNT_EMAIL'),
-            "token_uri": "https://oauth2.googleapis.com/token",
-        }
+        # Load credentials from file path
+        credentials_path = os.getenv('GOOGLE_SHEETS_CREDENTIALS_PATH', 'credentials/google-sheets-credentials.json')
         
-        self.credentials = service_account.Credentials.from_service_account_info(
-            credentials_info,
+        self.credentials = service_account.Credentials.from_service_account_file(
+            credentials_path,
             scopes=['https://www.googleapis.com/auth/spreadsheets.readonly']
         )
         

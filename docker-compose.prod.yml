@@ -90,7 +90,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
       args:
-        NEXT_PUBLIC_API_URL: https://dashboard.synopslabs.com/api
+        NEXT_PUBLIC_API_URL: https://dashboard.synopslabs.com
     container_name: synops-frontend
     restart: always
     depends_on:

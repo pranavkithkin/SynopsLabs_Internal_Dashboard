@@ -1,0 +1,173 @@
+/* Accessibility Styles for Synops Labs Dashboard */
+
+/* Focus Indicators - Visible keyboard navigation */
+*:focus-visible {
+    outline: 2px solid rgb(6 182 212);
+    /* cyan-500 */
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Remove default focus outline for mouse users */
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* High contrast focus for buttons and interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgb(6 182 212);
+    outline-offset: 2px;
+}
+
+/* Screen Reader Only Text - Visually hidden but accessible to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Skip to main content link */
+.skip-to-main {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 1rem 1.5rem;
+    background-color: rgb(6 182 212);
+    color: rgb(0 0 0);
+    text-decoration: none;
+    border-radius: 0 0 0.5rem 0;
+    font-weight: 600;
+}
+
+.skip-to-main:focus {
+    left: 0;
+    top: 0;
+}
+
+/* Ensure sufficient color contrast */
+.text-gray-400 {
+    /* Already meets WCAG AA for large text on black background */
+    color: rgb(156 163 175);
+}
+
+.text-gray-500 {
+    /* Ensure readable on black */
+    color: rgb(156 163 175);
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    * {
+        border-color: currentColor !important;
+    }
+
+    .border-cyan-500\/20 {
+        border-color: rgba(6, 182, 212, 0.5) !important;
+    }
+
+    .text-gray-400 {
+        color: rgb(209 213 219) !important;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Focus within for containers */
+.focus-within\:ring:focus-within {
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.5);
+}
+
+/* Keyboard navigation helpers */
+[tabindex="-1"]:focus {
+    outline: none;
+}
+
+/* Ensure interactive elements are keyboard accessible */
+[role="button"],
+[role="link"],
+[role="menuitem"] {
+    cursor: pointer;
+}
+
+[role="button"]:focus-visible,
+[role="link"]:focus-visible,
+[role="menuitem"]:focus-visible {
+    outline: 3px solid rgb(6 182 212);
+    outline-offset: 2px;
+}
+
+/* Disabled state should be clearly visible */
+:disabled,
+[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Loading state indicators */
+[aria-busy="true"] {
+    cursor: wait;
+}
+
+/* Error states should be clearly visible */
+[aria-invalid="true"] {
+    border-color: rgb(239 68 68) !important;
+    /* red-500 */
+}
+
+/* Success states */
+[aria-invalid="false"] {
+    border-color: rgb(34 197 94) !important;
+    /* green-500 */
+}
+
+/* Ensure tooltips are accessible */
+[role="tooltip"] {
+    z-index: 9999;
+    max-width: 300px;
+}
+
+/* Live regions for screen readers */
+[aria-live="polite"],
+[aria-live="assertive"] {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Print styles for accessibility */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    a[href]::after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]::after {
+        content: " (" attr(title) ")";
+    }
+}

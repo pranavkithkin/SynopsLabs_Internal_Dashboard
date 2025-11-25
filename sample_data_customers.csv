@@ -1,0 +1,11 @@
+Customer_Name,Status,Start_Date,MRR,Previous_Month_Revenue,Plan_Duration,Setup_Fee,Industry,Notes
+Acme Corporation,Active,2025-01-15,5000,4800,12,2000,Technology,Enterprise SaaS client
+Beta Solutions Inc,Active,2025-03-01,3500,3500,24,1500,Finance,Annual contract renewal
+Gamma Industries,Churned,2024-06-10,0,2000,12,1000,Manufacturing,Churned in Q3 2024
+Delta Healthcare,Active,2025-05-20,7500,7200,36,5000,Healthcare,Growing account - upsold
+Epsilon Retail,Active,2025-07-10,2500,2200,12,800,Retail,Small business plan
+Zeta Logistics,Active,2025-08-15,4200,4000,24,1800,Logistics,Mid-tier contract
+Theta Education,Active,2025-09-01,3800,3600,12,1200,Education,University partnership
+Iota Consulting,Active,2025-10-05,6500,6000,36,3500,Consulting,Premium tier
+Kappa Media,Active,2025-11-01,2800,0,12,900,Media,New customer this month
+Lambda Ventures,Active,2025-11-15,4500,0,24,2000,Finance,New customer this month

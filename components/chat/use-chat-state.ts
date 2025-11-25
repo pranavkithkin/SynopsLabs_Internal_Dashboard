@@ -192,8 +192,11 @@ const chatStore = create<ChatStore>((set, get) => ({
     const { socket } = get();
     if (socket) return;
 
-    // In a real app, this URL would come from env vars
-    const wsUrl = `ws://localhost:8000/ws/chat/${userId}`;
+    // Use production WebSocket URL
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const wsProtocol = apiUrl.startsWith('https://') ? 'wss://' : 'ws://';
+    const wsHost = apiUrl.replace(/^https?:\/\//, '');
+    const wsUrl = `${wsProtocol}${wsHost}/ws/chat/${userId}`;
     const newSocket = new WebSocket(wsUrl);
 
     newSocket.onopen = () => {

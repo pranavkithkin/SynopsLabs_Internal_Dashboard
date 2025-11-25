@@ -89,6 +89,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+      args:
+        NEXT_PUBLIC_API_URL: https://dashboard.synopslabs.com/api
     container_name: synops-frontend
     restart: always
     depends_on:

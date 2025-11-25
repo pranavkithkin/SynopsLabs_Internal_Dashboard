@@ -15,6 +15,7 @@ interface ChatStore {
   typingIndicators: TypingIndicator[];
   socket: WebSocket | null;
   isConnected: boolean;
+  currentUserEmail: string | null;
 
   // Actions
   setChatState: (state: ChatComponentState) => void;
@@ -28,7 +29,37 @@ interface ChatStore {
   toggleExpanded: () => void;
   connectWebSocket: (userId: string) => void;
   disconnectWebSocket: () => void;
+  loadUserConversations: (userEmail: string) => void;
+  saveConversations: () => void;
+  clearUserConversations: () => void;
 }
+
+// LocalStorage helpers - per-user chat history
+const getChatStorageKey = (userEmail: string) => `alfred_chat_${userEmail}`;
+
+const loadConversationsFromStorage = (userEmail: string): ChatConversation[] => {
+  if (typeof window === 'undefined') return mockChatData.conversations;
+
+  try {
+    const stored = localStorage.getItem(getChatStorageKey(userEmail));
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (error) {
+    console.error('Failed to load chat history:', error);
+  }
+  return mockChatData.conversations;
+};
+
+const saveConversationsToStorage = (userEmail: string, conversations: ChatConversation[]) => {
+  if (typeof window === 'undefined') return;
+
+  try {
+    localStorage.setItem(getChatStorageKey(userEmail), JSON.stringify(conversations));
+  } catch (error) {
+    console.error('Failed to save chat history:', error);
+  }
+};
 
 const chatStore = create<ChatStore>((set, get) => ({
   // Initial state
@@ -40,11 +71,15 @@ const chatStore = create<ChatStore>((set, get) => ({
   typingIndicators: [],
   socket: null,
   isConnected: false,
+  currentUserEmail: null,
 
   // Actions
   setChatState: (chatState) => set({ chatState }),
 
-  setConversations: (conversations) => set({ conversations }),
+  setConversations: (conversations) => {
+    set({ conversations });
+    get().saveConversations();
+  },
 
   setNewMessage: (newMessage) => {
     set({ newMessage });
@@ -265,7 +300,31 @@ const chatStore = create<ChatStore>((set, get) => ({
       socket.close();
       set({ socket: null, isConnected: false });
     }
+  },
+
+  // Load user-specific conversations from localStorage
+  loadUserConversations: (userEmail: string) => {
+    const conversations = loadConversationsFromStorage(userEmail);
+    set({ conversations, currentUserEmail: userEmail });
+  },
+
+  // Save current conversations to localStorage
+  saveConversations: () => {
+    const { conversations, currentUserEmail } = get();
+    if (currentUserEmail) {
+      saveConversationsToStorage(currentUserEmail, conversations);
+    }
+  },
+
+  // Clear chat history for current user
+  clearUserConversations: () => {
+    const { currentUserEmail } = get();
+    if (currentUserEmail && typeof window !== 'undefined') {
+      localStorage.removeItem(getChatStorageKey(currentUserEmail));
+      set({ conversations: mockChatData.conversations });
+    }
   }
+
 }));
 
 // Hook with computed values using selectors
